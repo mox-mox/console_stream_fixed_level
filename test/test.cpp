@@ -1,3 +1,24 @@
+/***********************************************************************
+*                                                                      *
+* (C) 2016, Moritz Nöltner-Augustin                                    *
+*                                                                      *
+* This program is free software; you can redistribute it and/or modify *
+* it under the terms of the GNU General Public License as published by *
+* the Free Software Foundation; either version 3 of the License, or    *
+* (at your option) any later version.                                  *
+*                                                                      *
+* This program is distributed in the hope that it will be useful,      *
+* but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+* GNU General Public License for more details.                         *
+*                                                                      *
+* You should have received a copy of the GNU General Public License    *
+* along with this program; if not, write to the Free Software          *
+* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 *
+* USA                                                                  *
+*                                                                      *
+***********************************************************************/
+
 // A little test program to see if the console streams work as expected
 #include "utils.h"
 #include "console_stream.hpp"
@@ -50,6 +71,7 @@ int main()
 
 
 	std::cout<<"Active (with real output):     "<<t_print<<'\n';
+	// If optimisaton is enabled with the compiler, the three times without output should be identical.
 	std::cout<<"Passive (output deactivated):  "<<t_noprint<<'\n';
 	std::cout<<"None (with an if(0) prepended: "<<t_none<<std::endl;
 	std::cout<<"Measurement offset:            "<<t_offset<<'\n';
@@ -60,7 +82,6 @@ int main()
 	debug<<"Hello"<<std::endl;
 	logger<<"these are some"<<std::endl;
 	error<<"fancy output streams."<<std::endl;
-
 
 	red_stream<<"red_stream"<<std::endl;
 	green_stream<<"green_stream"<<std::endl;

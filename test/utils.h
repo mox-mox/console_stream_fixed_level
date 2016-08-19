@@ -1,6 +1,6 @@
 /***********************************************************************
 *                                                                      *
-* (C) 2005, Mondrian Nuessle, Computer Architecture Group,               *
+* (C) 2005, Mondrian Nuessle, Computer Architecture Group,             *
 * University of Mannheim, Germany                                      *
 *                                                                      *
 * This program is free software; you can redistribute it and/or modify *
