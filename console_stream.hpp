@@ -26,6 +26,7 @@
 #include <sstream>
 #include <iomanip>
 #include <chrono>
+#include <sstream>
 
 /**
  * \brief A stream class providing formatted output
@@ -74,7 +75,17 @@ class Console_stream: public std::ostream
 				{
 					output<<"["<<std::setw(10)<<
 					    std::chrono::duration_cast < std::chrono::seconds > (std::chrono::high_resolution_clock::now().time_since_epoch()).count()<<
-					    "] "<<prefix<<str()<<postfix;
+					    "] "<<prefix;
+
+					// TODO: Make break into separate lines and print each line aligned with the first line.
+					std::string line;
+					std::stringstream ss(str());
+					while (getline(ss, line, '\n'))
+					{
+						output<<"foo"<<line<<'\n';
+					}
+
+					output<<postfix;
 					str("");
 					output.flush();
 					return 0;

@@ -30,8 +30,8 @@ __attribute__ ((init_priority (101))) Console_stream<char, std::char_traits<char
 int main()
 {
 	// Check whether the inactivated streams are really optimised away:
-	const uint64_t ITERATIONS = 1000;
-	const uint64_t LOOPS = 1000;
+	const uint64_t ITERATIONS = 100;
+	const uint64_t LOOPS = 100;
 	uint64_t t0, t1;
 	uint64_t t_offset = 0;
 	uint64_t t_print = 0;
