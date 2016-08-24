@@ -13,12 +13,12 @@ in green text where 1471615467 is the current system time in seconds, and (LL) i
 ## Why would I want this?
 Well a line like
 ```c++
-std::cout<<__FILE__<<':'<<__LINE__<<"::"<<__func__<<"(): Ooopsie, something went wrong."<<std::endl;
+debug<<__FILE__<<':'<<__LINE__<<"::"<<__func__<<"(): Ooopsie, something went wrong."<<std::endl;
 ```
 is certainly nicer than 
 ```c++
 #ifdef DEBUG
-	std::cout<<somefunction_to_get_the_time()<<": "<<__FILE__<<':'<<__LINE__<<"::"<<__func__<<"(): Ooopsie, something went wrong."<<std::endl;
+	std::cout<<print_the_time()<<": "<<__FILE__<<':'<<__LINE__<<"::"<<__func__<<"(): Ooopsie, something went wrong."<<std::endl;
 #endif
 ```
 
