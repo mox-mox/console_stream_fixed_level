@@ -10,6 +10,19 @@ Will print something like
 ```
 in green text where 1471615467 is the current system time in seconds, and (LL) is a prefix to identify the stream as the logging stream.
 
+## Why would I want this?
+Well a line like
+```c++
+debug<<"some log output and a number: "<<std::setw(10)<<99<<"."<<std::endl;
+```
+is certainly nicer than 
+```c++
+#ifdef DEBUG
+std::cout<<
+#endif
+```
+
+
 ## Usage
 
  1. Compilation

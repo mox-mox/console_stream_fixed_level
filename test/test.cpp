@@ -30,8 +30,8 @@ __attribute__ ((init_priority (101))) Console_stream<char, std::char_traits<char
 int main()
 {
 	// Check whether the inactivated streams are really optimised away:
-	const uint64_t ITERATIONS = 100;
-	const uint64_t LOOPS = 100;
+	const uint64_t ITERATIONS = 1000;
+	const uint64_t LOOPS = 10000;
 	uint64_t t0, t1;
 	uint64_t t_offset = 0;
 	uint64_t t_print = 0;
@@ -81,7 +81,7 @@ int main()
 	// Do check if the streams output data as expected
 	debug<<"Hello"<<std::endl;
 	logger<<"these are some"<<std::endl;
-	error<<"fancy output streams."<<std::endl;
+	error<<"fancy output streams.\nwith a nice\nlinebreak."<<std::endl;
 
 	red_stream<<"red_stream"<<std::endl;
 	green_stream<<"green_stream"<<std::endl;
@@ -90,6 +90,14 @@ int main()
 	magenta_stream<<"magenta_stream"<<std::endl;
 	cyan_stream<<"cyan_stream"<<std::endl;
 	white_stream<<"white_stream"<<std::endl;
+
+	std::cout<<__FILE__<<':'<<__LINE__<<"::"<<__func__<<"(): Ooopsie, something went wrong."<<std::endl;
+	logger_active<<__FILE__<<':'<<__LINE__<<"::"<<__func__<<"(): Ooopsie, something went wrong."<<std::endl;
+	logger_active<<"and another line"<<std::endl;
+	logger_active<<"and another line"<<std::endl;
+
+	logger_passive<<__FILE__<<':'<<__LINE__<<"::"<<__func__<<"(): Ooopsie, something went wrong."<<std::endl;
+
 
 
 	return 0;

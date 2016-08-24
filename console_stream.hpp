@@ -71,18 +71,19 @@ class Console_stream: public std::ostream
 				// 1) Output prefix then the buffer then the postfix
 				// 2) Reset the buffer
 				// 3) flush the actual output stream we are using.
+				// Active (with real output):     time
+				//
 				virtual int sync()
 				{
-					output<<"["<<std::setw(10)<<
-					    std::chrono::duration_cast < std::chrono::seconds > (std::chrono::high_resolution_clock::now().time_since_epoch()).count()<<
-					    "] "<<prefix;
-
-					// TODO: Make break into separate lines and print each line aligned with the first line.
 					std::string line;
 					std::stringstream ss(str());
+					getline(ss, line, '\n');
+					output<<"["<<std::setw(10)<<
+					    std::chrono::duration_cast < std::chrono::seconds > (std::chrono::steady_clock::now().time_since_epoch()).count()<<
+					    "] "<<prefix<<line<<'\n';
 					while (getline(ss, line, '\n'))
 					{
-						output<<"foo"<<line<<'\n';
+						output<<"             "<<prefix<<line<<'\n';
 					}
 
 					output<<postfix;
@@ -97,7 +98,8 @@ class Console_stream: public std::ostream
 		// \x1b[37m is an ANSI-escape sequence, see https://en.wikipedia.org/wiki/ANSI_escape_code
 		Console_stream(std::string prefix, std::ostream& str = std::cout, std::string postfix = "\x1b[37m") :
 			std::ostream(&buffer), buffer(prefix, str, postfix)
-		{ }
+		{
+		}
 };
 
 
