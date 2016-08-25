@@ -19,8 +19,35 @@
 *                                                                      *
 ***********************************************************************/
 
-#ifndef CONSOLE_STREAM_HPP
-#define CONSOLE_STREAM_HPP
+#pragma once
+
+#ifndef LOGGING_LEVEL
+	#pragma message("warning:To use the notify stream, set the notification level.\n" \
+	"	* Use -DLOGGING_LEVEL=0 to disable all notification output\n"                  \
+	"	* Use -DLOGGING_LEVEL=1 to enable only critical output\n"                      \
+	"	* Use -DLOGGING_LEVEL=2 to enable normal and critical output\n"                \
+	"	* Use -DLOGGING_LEVEL=3 to enable all output.\n" )
+	#define LOGGING_LEVEL 0
+#endif
+
+#define USE_DEBUG_STREAM false
+#define USE_LOGGER_STREAM false
+#define USE_ERROR_STREAM false
+
+#if LOGGING_LEVEL >= 1
+	#undef USE_ERROR_STREAM
+	#define USE_ERROR_STREAM true
+#endif
+
+#if LOGGING_LEVEL >= 2
+	#undef USE_LOGGER_STREAM
+	#define USE_LOGGER_STREAM true
+#endif
+
+#if LOGGING_LEVEL >= 3
+	#undef USE_DEBUG_STREAM
+	#define USE_DEBUG_STREAM true
+#endif
 
 #include <iostream>
 #include <sstream>
@@ -50,21 +77,20 @@
  * The number in square brackets will be the current value of the milliseconds counter.
  *
  */
-
-template< class CharT, class Traits = std::char_traits<CharT>, bool active=true >
+template<class CharT, class Traits = std::char_traits<CharT>, bool active=true>
 class Console_stream: public std::ostream
 {
 	private:
 		/**
 		 * A stream buffer that wraps each line within prefix and postfix.
 		 */
-		class LogStreamBuf: public std::stringbuf
+		class stream_buf: public std::stringbuf
 		{
 			std::string prefix;
-			std::ostream&   output;
+			std::ostream& output;
 			std::string postfix;
 			public:
-				LogStreamBuf(std::string prefix, std::ostream&str_, std::string postfix) : prefix(prefix), output(str_), postfix(postfix)
+				stream_buf(std::string prefix, std::ostream& str_, std::string postfix) : prefix(prefix), output(str_), postfix(postfix)
 				{}
 
 				// When we sync the stream with the output.
@@ -93,7 +119,7 @@ class Console_stream: public std::ostream
 				}
 		};
 
-		LogStreamBuf buffer;
+		stream_buf buffer;
 	public:
 		// \x1b[37m is an ANSI-escape sequence, see https://en.wikipedia.org/wiki/ANSI_escape_code
 		Console_stream(std::string prefix, std::ostream& str = std::cout, std::string postfix = "\x1b[37m") :
@@ -106,7 +132,7 @@ class Console_stream: public std::ostream
 /**
  * Partial specialisation that disables the output
  */
-template< class CharT, class Traits>
+template<class CharT, class Traits>
 class Console_stream<CharT,Traits, false>: public std::ostream
 {
 	public:
@@ -128,7 +154,7 @@ class Console_stream<CharT,Traits, false>: public std::ostream
 		}
 
 		/**
-		 * The function(s) handling formatting functions like std::endl.
+		 * The function handling normal data insertion into the stream.
 		 * These functions are actually needed and have to be inlined to allow the compiler to completely optimise them away.
 		 */
 		template<typename T>
@@ -139,26 +165,6 @@ class Console_stream<CharT,Traits, false>: public std::ostream
 		}
 };
 
-#if defined(USE_DEBUG_STREAM) && USE_DEBUG_STREAM != 0
-	#undef USE_DEBUG_STREAM
-	#define USE_DEBUG_STREAM true
-#else
-	#define USE_DEBUG_STREAM false
-#endif
-
-#if defined(USE_LOGGER_STREAM) && USE_LOGGER_STREAM != 0
-	#undef USE_LOGGER_STREAM
-	#define USE_LOGGER_STREAM true
-#else
-	#define USE_LOGGER_STREAM false
-#endif
-
-#if defined(USE_ERROR_STREAM) && USE_ERROR_STREAM != 0
-	#undef USE_ERROR_STREAM
-	#define USE_ERROR_STREAM true
-#else
-	#define USE_ERROR_STREAM false
-#endif
 
 extern Console_stream<char, std::char_traits<char>, USE_DEBUG_STREAM> debug;
 extern Console_stream<char, std::char_traits<char>, USE_LOGGER_STREAM> logger;
@@ -173,6 +179,3 @@ extern Console_stream<char, std::char_traits<char>, USE_ERROR_STREAM> error;
 	extern Console_stream<char, std::char_traits<char>, true> cyan_stream;
 	extern Console_stream<char, std::char_traits<char>, true> white_stream;
 #endif
-
-#endif /* CONSOLE_STREAM_HPP */
-

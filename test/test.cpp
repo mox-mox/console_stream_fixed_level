@@ -98,8 +98,6 @@ int main()
 
 	logger_passive<<__FILE__<<':'<<__LINE__<<"::"<<__func__<<"(): Ooopsie, something went wrong."<<std::endl;
 
-
-
 	return 0;
 }
 
