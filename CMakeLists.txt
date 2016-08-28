@@ -1,1 +1,2 @@
-include_directories(${i3ipc-doodle_SOURCE_DIR}/libs/streamlib)
+set(SRCS ${SRCS} "${CMAKE_CURRENT_SOURCE_DIR}/console_stream.cpp" PARENT_SCOPE)
+set(INCDIRS ${INCDIRS} ${CMAKE_CURRENT_SOURCE_DIR} PARENT_SCOPE)
