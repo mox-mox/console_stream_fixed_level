@@ -52,7 +52,8 @@
 #include <iostream>
 #include <sstream>
 #include <iomanip>
-#include <chrono>
+#include <ctime>
+//#include <chrono>
 #include <sstream>
 
 /**
@@ -104,9 +105,11 @@ class Console_stream: public std::ostream
 					std::string line;
 					std::stringstream ss(str());
 					getline(ss, line, '\n');
-					output<<"["<<std::setw(10)<<
-					    std::chrono::duration_cast < std::chrono::seconds > (std::chrono::steady_clock::now().time_since_epoch()).count()<<
-					    "] "<<prefix<<line<<'\n';
+					//output<<"["<<std::setw(10)<<
+					//    std::chrono::duration_cast < std::chrono::seconds > (std::chrono::steady_clock::now().time_since_epoch()).count()<<
+					//    "] "<<prefix<<line<<'\n';
+					std::time_t t = std::time(nullptr);
+					output<<"["<<std::put_time(std::localtime(&t), "%F %T")<<"] "<<prefix<<line<<'\n';
 					while (getline(ss, line, '\n'))
 					{
 						output<<"             "<<prefix<<line<<'\n';
