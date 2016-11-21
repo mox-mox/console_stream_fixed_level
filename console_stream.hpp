@@ -112,7 +112,7 @@ class Console_stream: public std::ostream
 					output<<"["<<std::put_time(std::localtime(&t), "%F/%T")<<"] "<<prefix<<line<<'\n';
 					while (getline(ss, line, '\n'))
 					{
-						output<<"             "<<prefix<<line<<'\n';
+						output<<"                      "<<prefix<<line<<'\n';
 					}
 
 					output<<postfix;
