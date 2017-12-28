@@ -139,20 +139,16 @@ template<class CharT, class Traits>
 class Console_stream<CharT,Traits, false>: public std::ostream
 {
 	public:
-		Console_stream(std::string prefix, std::ostream& str = std::cout, std::string postfix = "")
+		Console_stream(std::string, std::ostream& = std::cout, std::string = "")
 		{
-			(void) prefix;
-			(void) str;
-			(void) postfix;
 		}
 
 		/**
 		 * The function handling formatting functions like std::endl.
 		 * This function is actually needed and has to be inlined to allow the compiler to completely optimise it away.
 		 */
-		__attribute__((always_inline)) inline __ostream_type& operator<<(__ostream_type& (*__pf)(__ostream_type&))
+		__attribute__((always_inline)) inline __ostream_type& operator<<(__ostream_type& (*)(__ostream_type&))
 		{
-			(void) __pf;
 			return *this;
 		}
 
@@ -161,9 +157,8 @@ class Console_stream<CharT,Traits, false>: public std::ostream
 		 * These functions are actually needed and have to be inlined to allow the compiler to completely optimise them away.
 		 */
 		template<typename T>
-		__attribute__((always_inline)) inline Console_stream<CharT, Traits, false>& operator<<(T value)
+		__attribute__((always_inline)) inline Console_stream<CharT, Traits, false>& operator<<(T)
 		{
-			(void) value;
 			return *this;
 		}
 };
